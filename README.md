@@ -47,7 +47,7 @@ Name,Number,Summary
 ### Nested Objects
 All properties of an object are output using their ToString() implementation. Nested objects without a custom ToString() method will simply just use the default ToString() implementation:
 ```
-Items =
+People =
 {
     new Person
     {
