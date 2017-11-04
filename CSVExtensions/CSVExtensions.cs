@@ -8,15 +8,16 @@ namespace CSVExtensions
 {
     public static class EnumerableExtensions
     {
+        private const string Seperator = ",";
+
         public static string AsCsvString<T>(this IEnumerable<T> items)
         {
             var sb = new StringBuilder();
-            const string seperator = ",";
 
             var properties = typeof(T).GetProperties().Select(property => property).ToArray();
             var propertyNames = properties.Select(property => property.Name);
 
-            sb.AppendLine(string.Join(seperator, propertyNames));
+            sb.AppendLine(string.Join(Seperator, propertyNames));
 
             foreach (var item in items)
             {
@@ -32,7 +33,7 @@ namespace CSVExtensions
                     return $"\"{propertyValue.Escape('\"')}\"";
                 });
 
-                sb.AppendLine(string.Join(seperator, values));
+                sb.AppendLine(string.Join(Seperator, values));
             }
 
             return sb.ToString();
@@ -41,9 +42,8 @@ namespace CSVExtensions
         public static string AsCsvString<T>(this IEnumerable<T> items, string[] headers, params Func<T, object>[] valueFuncs)
         {
             var sb = new StringBuilder();
-            const string seperator = ",";
 
-            sb.AppendLine(string.Join(seperator, headers));
+            sb.AppendLine(string.Join(Seperator, headers));
 
             foreach (var item in items)
             {
@@ -53,7 +53,7 @@ namespace CSVExtensions
                     return $"\"{value}\"";
                 });
 
-                sb.AppendLine(string.Join(seperator, values));
+                sb.AppendLine(string.Join(Seperator, values));
             }
 
             return sb.ToString();
