@@ -1,5 +1,5 @@
 # CSVExtensions
-Extensions for IEnumerable that return back a CSV formatted string.
+Extensions for IEnumerable that return back a CSV formatted string. Groundbreaking stuff.
 
 ## Usage
 Given an example list of items:
