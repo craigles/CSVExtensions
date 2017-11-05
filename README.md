@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/craigles/CSVExtensions.svg?branch=master)](https://travis-ci.org/craigles/CSVExtensions)
 # CSVExtensions
 Extensions for IEnumerable that return back a CSV formatted string. Groundbreaking stuff.
+[![Build Status](https://travis-ci.org/craigles/CSVExtensions.svg?branch=master)](https://travis-ci.org/craigles/CSVExtensions)
 
 ## Usage
 Given an example list of items:
