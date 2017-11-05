@@ -12,12 +12,10 @@ namespace CSVExtensions
 
         public static string AsCsvString<T>(this IEnumerable<T> items)
         {
-            var sb = new StringBuilder();
-
             var properties = typeof(T).GetProperties().Select(property => property).ToArray();
             var propertyNames = properties.Select(property => property.Name);
-
-            sb.AppendLine(string.Join(Seperator, propertyNames));
+            var headersLine = string.Join(Seperator, propertyNames);
+            var valueLines = new List<string>();
 
             foreach (var item in items)
             {
@@ -33,17 +31,19 @@ namespace CSVExtensions
                     return $"\"{propertyValue.Escape('\"')}\"";
                 });
 
-                sb.AppendLine(string.Join(Seperator, values));
+                valueLines.Add(string.Join(Seperator, values));
             }
 
-            return sb.ToString();
+            return new StringBuilder()
+                .AppendLine(headersLine)
+                .AppendLines(valueLines.ToArray())
+                .ToString();
         }
 
         public static string AsCsvString<T>(this IEnumerable<T> items, string[] headers, params Func<T, object>[] valueFuncs)
         {
-            var sb = new StringBuilder();
-
-            sb.AppendLine(string.Join(Seperator, headers));
+            var headersLine = string.Join(Seperator, headers);
+            var valueLines = new List<string>();
 
             foreach (var item in items)
             {
@@ -53,15 +53,28 @@ namespace CSVExtensions
                     return $"\"{value}\"";
                 });
 
-                sb.AppendLine(string.Join(Seperator, values));
+                valueLines.Add(string.Join(Seperator, values));
             }
 
-            return sb.ToString();
+            return new StringBuilder()
+                .AppendLine(headersLine)
+                .AppendLines(valueLines.ToArray())
+                .ToString();
         }
 
         private static string Escape(this string source, char charToEscape)
         {
             return source.Replace(charToEscape.ToString(), $"{charToEscape}{charToEscape}");
+        }
+
+        private static StringBuilder AppendLines(this StringBuilder sb, params string[] lines)
+        {
+            foreach (var line in lines)
+            {
+                sb.AppendLine(line);
+            }
+
+            return sb;
         }
     }
 }
